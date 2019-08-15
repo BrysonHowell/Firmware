@@ -83,10 +83,12 @@ fi
 # multi-instance setup
 # shellcheck disable=SC2154
 param set MAV_SYS_ID $((px4_instance+1))
-simulator_tcp_port=$((4560+px4_instance))
+# simulator_tcp_port=$((4560+px4_instance))
+simulator_udp_port=$((14560+0))
 udp_offboard_port_local=$((14580+px4_instance))
 udp_offboard_port_remote=$((14540+px4_instance))
 udp_gcs_port_local=$((14570+px4_instance))
+udp_unreal_port_local=$((14556+0))
 
 if [ $AUTOCNF = yes ]
 then
@@ -199,7 +201,8 @@ sh "$autostart_file"
 
 dataman start
 replay tryapplyparams
-simulator start -s -c $simulator_tcp_port
+# simulator start -s -c $simulator_tcp_port
+simulator start -s -u $simulator_udp_port
 tone_alarm start
 gyrosim start
 accelsim start
@@ -242,6 +245,7 @@ sh etc/init.d/rc.vehicle_setup
 
 # GCS link
 mavlink start -x -u $udp_gcs_port_local -r 4000000
+mavlink start -x -u $udp_unreal_port_local -r 4000000
 mavlink stream -r 50 -s POSITION_TARGET_LOCAL_NED -u $udp_gcs_port_local
 mavlink stream -r 50 -s LOCAL_POSITION_NED -u $udp_gcs_port_local
 mavlink stream -r 50 -s GLOBAL_POSITION_INT -u $udp_gcs_port_local
