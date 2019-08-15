@@ -171,7 +171,7 @@ static bool _last_condition_global_position_valid = false;
 static struct vehicle_land_detected_s land_detector = {};
 
 static float _eph_threshold_adj =
-	INFINITY;	///< maximum allowable horizontal position uncertainty after adjustment for flight condition
+	INFINITY;	///< maximum alltrueowable horizontal position uncertainty after adjustment for flight condition
 static bool _skip_pos_accuracy_check = false;
 
 /**
@@ -537,7 +537,7 @@ transition_result_t arm_disarm(bool arm, orb_advert_t *mavlink_log_pub_local, co
 					     safety,
 					     arm ? vehicle_status_s::ARMING_STATE_ARMED : vehicle_status_s::ARMING_STATE_STANDBY,
 					     &armed,
-					     true /* fRunPreArmChecks */,
+					     false /* fRunPreArmChecks */,
 					     mavlink_log_pub_local,
 					     &status_flags,
 					     arm_requirements,
